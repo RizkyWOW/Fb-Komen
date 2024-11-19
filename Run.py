@@ -521,7 +521,7 @@ class FACEBOOK:
         response4 = SESSION.get('https://m.facebook.com{}'.format(self.REACTION_PICKER))
 
         self.UFI_REACTION = re.findall(r'href="(/ufi/reaction/[^"]+)"', str(response4.text))
-        for URLS in self.UFI_REACTION: # 1=LIKE, 2=SUPER, 16=PEDULI, 4=HAHA, 3=WOW, 7=SEDIH, 8=MARAH
+        for URLS in self.UFI_REACTION: # 1=LIKE, 2=SUPER, 16=PEDULI
             if f'reaction_type={TYPE_}' in str(URLS):
                 self.REACTION_URL = URLS.replace('amp;', '')
             else:
@@ -553,9 +553,9 @@ class TIPE:
             1: "Like",
             2: "Super",
             16: "Peduli",
-            4: "Haha",
-            3: "Wow",
-            7: "Sedih"
+            
+            
+        
         }
         return self.REACTIONS.get(int(number), "Marah")
 
