@@ -81,7 +81,7 @@ def TAMPILKAN_BANNER():
  |  _| | |_) |_____| . \ (_) | | | | | |  __/ | | |
 [bold white] |_|   |_.__/      |_|\_\___/|_| |_| |_|\___|_| |_|
 
-    [underline red]Facebook Comments Home Page - Coded by Rozhak""", width=57, style="bold light_slate_grey"))
+    [underline red]Facebook Comments Home Page - Coded by ARKYPRAS""", width=57, style="bold light_slate_grey"))
 
 def HEADERS(your_cookies):
     return({
