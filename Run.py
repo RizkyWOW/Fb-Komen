@@ -716,7 +716,13 @@ class GENERATE:
 
 if __name__ == '__main__':
     try:
-        
+        if os.path.exists("Penyimpanan/Subscribe.json") == False:
+            YOUTUBE_URL = json.loads(requests.get('https://raw.githubusercontent.com/RozhakXD/Fb-Komen/main/Penyimpanan/Youtube.json').text)['Link']
+            os.system(f'xdg-open {YOUTUBE_URL}')
+            with open('Penyimpanan/Subscribe.json', 'w') as w:
+                w.write(json.dumps({
+                    "Status": True
+                }))
             w.close()
             time.sleep(2.5)
         os.system('git pull')
