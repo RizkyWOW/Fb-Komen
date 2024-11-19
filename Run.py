@@ -455,7 +455,7 @@ class FACEBOOK:
             })
 
             if bool(LIKE['STATUS']) == True:
-                self.RANDOM_REAKSI = random.choice(['1', '2', '16', '4', '3', '7', '8'])
+                self.RANDOM_REAKSI = random.choice(['1', '2', '16'])
                 self.TIPE_REAKSI = TIPE().REACTION(self.RANDOM_REAKSI)
                 self.REAKSI(SESSION, response.text, link_postingan, self.RANDOM_REAKSI)
             else:
@@ -557,7 +557,7 @@ class TIPE:
             
         
         }
-        return self.REACTIONS.get(int(number), "Marah")
+        return self.REACTIONS.get(int(number), "Super")
 
 class GENERATE:
 
@@ -716,13 +716,7 @@ class GENERATE:
 
 if __name__ == '__main__':
     try:
-        if os.path.exists("Penyimpanan/Subscribe.json") == False:
-            YOUTUBE_URL = json.loads(requests.get('https://raw.githubusercontent.com/RozhakXD/Fb-Komen/main/Penyimpanan/Youtube.json').text)['Link']
-            os.system(f'xdg-open {YOUTUBE_URL}')
-            with open('Penyimpanan/Subscribe.json', 'w') as w:
-                w.write(json.dumps({
-                    "Status": True
-                }))
+        
             w.close()
             time.sleep(2.5)
         os.system('git pull')
