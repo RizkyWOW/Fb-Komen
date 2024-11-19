@@ -20,7 +20,7 @@ Fb-Komen is a Python script designed to comment on Facebook posts with images ge
 ```
 $ apt update -y && apt upgrade -y
 $ pkg install git python-pip
-$ git clone https://github.com/RozhakXD/Fb-Komen
+$ git clone https://github.com/RizkyWOW/Fb-Komen
 $ cd "Fb-Komen"
 $ python -m pip install -r requirements.txt
 $ python Run.py
