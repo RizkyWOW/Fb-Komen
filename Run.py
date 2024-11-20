@@ -570,10 +570,10 @@ class GENERATE:
                 SESSION.headers.update({
                     'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36',
                     'Accept-Language': 'en-US,en;q=0.9',
-                    'Origin': 'https://koala.sh',
+                    'Origin': '',
                     'Accept': '*/*',
                     'Sec-Fetch-Dest': 'empty',
-                    'Referer': 'https://koala.sh/images',
+                    'Referer': '',
                     'Sec-Fetch-Mode': 'cors',
                     'Sec-Fetch-Site': 'same-origin',
                     'Host': 'koala.sh',
@@ -584,7 +584,7 @@ class GENERATE:
                     'prompt': prompt,
                     'style': 'photo',
                 })
-                response = SESSION.post('https://koala.sh/api/image-generation/', data = data)
+                response = SESSION.post('', data = data)
                 if '"url":"' in str(response.text):
                     image_url = json.loads(response.text)[0]['url']
                     SESSION.headers.pop('Content-Type')
