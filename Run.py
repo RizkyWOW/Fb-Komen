@@ -160,7 +160,7 @@ class FITUR:
             time.sleep(5.7)
             LOGIN().COOKIES()
 
-        printf(Panel(f"""[bold green]1[bold white]. Komentar Dan Reaction Bergambar ([bold green]koala.sh[bold white])
+        printf(Panel(f"""[bold green]1[bold white]. Komentar Dan Reaction Bergambar ([bold green][bold white])
 [bold green]2[bold white]. Komentar Bergambar ([bold red]ephoto360.com[bold white])
 [bold green]3[bold white]. Komentar Dan Reaction Target
 [bold green]4[bold white]. Ganti Teks Komentar
@@ -411,7 +411,44 @@ class FACEBOOK:
                 time.sleep(4.7)
                 return ("0_0")
 
-   
+    def KOMENTAR(self, cookies, link_postingan):
+        with requests.Session() as SESSION:
+            SESSION.headers.update(
+                HEADERS(your_cookies=cookies)
+            )
+            response = SESSION.get('{}'.format(link_postingan))
+            if not '/groups/' in str(link_postingan):
+                try:
+                    self.OBJECT_ID = re.search(r'&id=(\d+)&', str(link_postingan)).group(1)
+                except (AttributeError):
+                    self.OBJECT_ID = ('4')
+            else:
+                try:
+                    self.OBJECT_ID = re.search(r'story_id=S%3A_I(\d+)%', str(response.text)).group(1)
+                except (AttributeError):
+                    self.OBJECT_ID = ('4')
+            if bool(KOMENTAR['STATUS']) == True:
+                if int(FOTO['TYPE']) == 1:
+                    self.PROMPT = random.choice(
+                        PROMPT()
+                    )
+                    GENERATE().(prompt=self.PROMPT)
+                else:
+                    try:
+                        if not '/groups/' in str(link_postingan):
+                            self.FULL_NAME = re.search(r'property="og:title" content="([^<]+)"', str(response.text)).group(1)
+                        else:
+                            self.FULL_NAME = re.search(r'href="/[^"]*">([^<]*)</a></strong>', str(response.text)).group(1)
+                        if len(self.FULL_NAME) >= 35:
+                            self.FULL_NAME = self.FULL_NAME[:40]
+                        elif len(self.FULL_NAME) == 0:
+                            GENERATE().(prompt=PROMPT())
+                        else:
+                            self.FULL_NAME = self.FULL_NAME.title()
+                    except (AttributeError):
+                        GENERATE().(prompt=PROMPT())
+                    GENERATE().IMAGE_EPHOTO360(full_name=self.FULL_NAME)
+            self.COMMENT_ADVANCED = re.search(r'href="(/mbasic/comment/advanced/[^"]+)"', str(response.text)).group(1).replace('amp;', '')
 
             SESSION.headers.update({
                 "Referer": "{}".format(link_postingan),
@@ -522,7 +559,160 @@ class TIPE:
         }
         return self.REACTIONS.get(int(number), "Super")
 
+class GENERATE:
 
+    def __init__(self) -> None:
+        pass
+
+    def (self, prompt):
+        try:
+            with requests.Session() as SESSION:
+                SESSION.headers.update({
+                    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36',
+                    'Accept-Language': 'en-US,en;q=0.9',
+                    'Origin': '"',
+                    'Accept': '*/*',
+                    'Sec-Fetch-Dest': 'empty',
+                    'Referer': '"',
+                    'Sec-Fetch-Mode': 'cors',
+                    'Sec-Fetch-Site': 'same-origin',
+                    'Host': '"',
+                    'Content-Type': 'application/json',
+                })
+                data = json.dumps({
+                    'size': '1024x1024',
+                    'prompt': prompt,
+                    'style': 'photo',
+                })
+                response = SESSION.post('"', data = data)
+                if '"url":"' in str(response.text):
+                    image_url = json.loads(response.text)[0]['url']
+                    SESSION.headers.pop('Content-Type')
+                    SESSION.headers.pop('Origin')
+                    SESSION.headers.update({
+                        'Accept': 'image/avif,image/webp,image/apng,image/svg+xml,image/*,*/*;q=0.8',
+                        'Sec-Fetch-Dest': 'image',
+                        'Sec-Fetch-Mode': 'no-cors',
+                    })
+                    response = SESSION.get(image_url)
+                    with open('Penyimpanan/Images.jpg', 'wb') as W:
+                        W.write(response.content)
+                    W.close()
+                    printf(f"                                                    ", end='\r')
+                    printf(f"[bold light_slate_grey]   ──>[bold green] BERHASIL MEMBUAT GAMBAR!", end='\r')
+                    time.sleep(2.7)
+                    return ("0_0")
+                else:
+                    printf(f"                                                    ", end='\r')
+                    printf(f"[bold light_slate_grey]   ──>[bold red] GAGAL MEMBUAT GAMBAR!", end='\r')
+                    time.sleep(4.7)
+                    self.(prompt=prompt)
+        except (Exception):
+            printf(f"                                                    ", end='\r')
+            printf(f"[bold light_slate_grey]   ──>[bold red] GAGAL MEMBUAT GAMBAR!", end='\r')
+            time.sleep(4.7)
+            self.(prompt=random.choice(PROMPT()))
+
+    def IMAGE_EPHOTO360(self, full_name):
+        try:
+            with requests.Session() as SESSION:
+                self.URL = (
+                    random.choice(['https://en.ephoto360.com/create-online-3d-comic-style-text-effects-817.html', 'https://en.ephoto360.com/create-dragon-ball-style-text-effects-online-809.html', 'https://en.ephoto360.com/create-glossy-silver-3d-text-effect-online-802.html', 'https://en.ephoto360.com/create-colorful-neon-light-text-effects-online-797.html', 'https://en.ephoto360.com/create-typography-text-effect-on-pavement-online-774.html', 'https://en.ephoto360.com/create-digital-glitch-text-effects-online-767.html', 'https://en.ephoto360.com/write-text-on-wet-glass-online-589.html', 'https://en.ephoto360.com/create-pornhub-style-logos-online-free-549.html', 'https://en.ephoto360.com/create-online-typography-art-effects-with-multiple-layers-811.html', 'https://en.ephoto360.com/naruto-shippuden-logo-style-text-effect-online-808.html', 'https://en.ephoto360.com/beautiful-3d-foil-balloon-effects-for-holidays-and-birthday-803.html', 'https://en.ephoto360.com/create-3d-colorful-paint-text-effect-online-801.html', 'https://en.ephoto360.com/create-pixel-glitch-text-effect-online-769.html', 'https://en.ephoto360.com/create-impressive-neon-glitch-text-effects-online-768.html', 'https://en.ephoto360.com/free-online-american-flag-3d-text-effect-generator-725.html', 'https://en.ephoto360.com/create-eraser-deleting-text-effect-online-717.html', 'https://en.ephoto360.com/create-multicolored-signature-attachment-arrow-effect-714.html', 'https://en.ephoto360.com/online-blackpink-style-logo-maker-effect-711.html', 'https://en.ephoto360.com/create-glowing-text-effects-online-706.html', 'https://en.ephoto360.com/3d-underwater-text-effect-online-682.html', 'https://en.ephoto360.com/free-bear-logo-maker-online-673.html', 'https://en.ephoto360.com/write-text-on-vintage-television-online-670.html', 'https://en.ephoto360.com/create-a-cartoon-style-graffiti-text-effect-online-668.html', 'https://en.ephoto360.com/create-a-graffiti-text-effect-on-the-wall-online-665.html', 'https://en.ephoto360.com/create-a-realistic-embroidery-text-effect-online-662.html', 'https://en.ephoto360.com/multicolor-3d-paper-cut-style-text-effect-658.html', 'https://en.ephoto360.com/free-glitter-text-effect-maker-online-656.html', 'https://en.ephoto360.com/create-a-watercolor-text-effect-online-655.html', 'https://en.ephoto360.com/write-text-effect-clouds-in-the-sky-online-619.html', 'https://en.ephoto360.com/create-realistic-vintage-3d-light-bulb-608.html', 'https://en.ephoto360.com/create-blackpink-logo-online-free-607.html', 'https://en.ephoto360.com/create-funny-warning-sign-602.html', 'https://en.ephoto360.com/create-3d-gradient-text-effect-online-600.html', 'https://en.ephoto360.com/write-in-sand-summer-beach-online-free-595.html', 'https://en.ephoto360.com/create-a-luxury-gold-text-effect-online-594.html', 'https://en.ephoto360.com/create-multicolored-neon-light-signatures-591.html', 'https://en.ephoto360.com/write-in-sand-summer-beach-online-576.html', 'https://en.ephoto360.com/create-galaxy-wallpaper-mobile-online-528.html', 'https://en.ephoto360.com/1917-style-text-effect-523.html', 'https://en.ephoto360.com/making-neon-light-text-effect-with-galaxy-style-521.html', 'https://en.ephoto360.com/tik-tok-text-effects-online-generator-485.html', 'https://en.ephoto360.com/write-letters-on-life-buoys-484.html', 'https://en.ephoto360.com/royal-text-effect-online-free-471.html', 'https://en.ephoto360.com/create-double-exposure-inspired-text-effect-online-free-468.html', 'https://en.ephoto360.com/write-status-quotes-on-photo-online-free-455.html', 'https://en.ephoto360.com/create-typography-status-quotes-images-online-for-free-452.html', 'https://en.ephoto360.com/print-name-on-hollywood-walk-of-fame-star-451.html', 'https://en.ephoto360.com/free-minimal-logo-maker-online-445.html', 'https://en.ephoto360.com/free-create-a-3d-hologram-text-effect-441.html', 'https://en.ephoto360.com/create-galaxy-style-free-name-logo-438.html', 'https://en.ephoto360.com/create-mascot-logo-astronaut-space-galaxy-online-free-437.html', 'https://en.ephoto360.com/create-light-effects-green-neon-online-429.html', 'https://en.ephoto360.com/create-logo-3d-style-avengers-online-427.html', 'https://en.ephoto360.com/glossy-chrome-text-effect-online-424.html', 'https://en.ephoto360.com/create-marvel-style-logo-419.html', 'https://en.ephoto360.com/green-brush-text-effect-typography-maker-online-153.html', 'https://en.ephoto360.com/writing-on-the-cakes-127.html', 'https://en.ephoto360.com/metal-logo-online-108.html', 'https://en.ephoto360.com/noel-text-effect-online-99.html', 'https://en.ephoto360.com/glitter-gold-98.html', 'https://en.ephoto360.com/text-cake-90.html', 'https://en.ephoto360.com/stars-night-online-1-85.html', 'https://en.ephoto360.com/advanced-glow-effects-74.html', 'https://en.ephoto360.com/road-paint-text-effect-70.html', 'https://en.ephoto360.com/wooden-3d-text-effect-59.html', 'https://en.ephoto360.com/create-text-by-name-effect-58.html', 'https://en.ephoto360.com/write-galaxy-online-18.html', 'https://en.ephoto360.com/write-galaxy-bat-17.html', 'https://en.ephoto360.com/create-the-titanium-text-effect-to-introduce-iphone-15-812.html', 'https://en.ephoto360.com/create-sunset-light-text-effects-online-807.html', 'https://en.ephoto360.com/impressive-decorative-3d-metal-text-effect-798.html', 'https://en.ephoto360.com/nigeria-3d-flag-text-effect-online-free-753.html', 'https://en.ephoto360.com/national-flag-text-effect-according-to-your-country-752.html', 'https://en.ephoto360.com/create-colorful-angel-wing-avatars-731.html', 'https://en.ephoto360.com/create-3d-crack-text-effect-online-704.html', 'https://en.ephoto360.com/create-broken-glass-text-effect-online-698.html', 'https://en.ephoto360.com/free-online-art-paper-cut-text-effects-695.html', 'https://en.ephoto360.com/create-3d-gradient-text-effect-online-686.html', 'https://en.ephoto360.com/create-a-3d-shiny-metallic-text-effect-online-685.html', 'https://en.ephoto360.com/neon-devil-wings-text-effect-online-683.html', 'https://en.ephoto360.com/christmas-snow-text-effect-online-631.html', 'https://en.ephoto360.com/create-a-snow-3d-text-effect-free-online-621.html', 'https://en.ephoto360.com/colorful-birthday-foil-balloon-text-effects-620.html', 'https://en.ephoto360.com/create-a-cloud-text-effect-in-the-sky-618.html', 'https://en.ephoto360.com/create-realistic-cloud-text-effect-606.html', 'https://en.ephoto360.com/lovely-floral-ornamental-banner-online-603.html', 'https://en.ephoto360.com/create-circle-football-logo-online-592.html', 'https://en.ephoto360.com/write-names-and-messages-on-the-sand-online-582.html', 'https://en.ephoto360.com/realistic-3d-sand-text-effect-online-580.html', 'https://en.ephoto360.com/create-a-summery-sand-writing-text-effect-577.html', 'https://en.ephoto360.com/create-a-gaming-mascot-logo-free-560.html', 'https://en.ephoto360.com/latest-space-3d-text-effect-online-559.html', 'https://en.ephoto360.com/funny-minion-text-effect-online-544.html', 'https://en.ephoto360.com/writing-your-name-on-hot-air-balloon-506.html', 'https://en.ephoto360.com/create-a-awesome-logo-sci-fi-effects-492.html', 'https://en.ephoto360.com/lovely-cute-3d-text-effect-with-pig-397.html', 'https://en.ephoto360.com/green-neon-text-effect-395.html', 'https://en.ephoto360.com/create-logo-3d-metal-online-374.html', 'https://en.ephoto360.com/create-logo-avatar-wolf-galaxy-online-366.html', 'https://en.ephoto360.com/create-avatar-online-style-joker-365.html', 'https://en.ephoto360.com/create-logo-templates-according-to-online-icons-361.html', 'https://en.ephoto360.com/dark-green-typography-online-359.html', 'https://en.ephoto360.com/typography-online-leaf-autumn-358.html', 'https://en.ephoto360.com/create-typography-status-online-with-impressive-leaves-357.html', 'https://en.ephoto360.com/text-firework-effect-356.html', 'https://en.ephoto360.com/chocolate-text-effect-353.html', 'https://en.ephoto360.com/dragon-steel-text-effect-online-347.html', 'https://en.ephoto360.com/text-light-galaxy-effectt-345.html', 'https://en.ephoto360.com/typography-maker-online-5-343.html', 'https://en.ephoto360.com/typography-texture-online-nature-theme-342.html', 'https://en.ephoto360.com/online-hot-metallic-effect-341.html', 'https://en.ephoto360.com/typography-maker-facebook-online-340.html', 'https://en.ephoto360.com/make-typography-text-online-338.html', 'https://en.ephoto360.com/paul-scholes-shirt-foot-ball-335.html', 'https://en.ephoto360.com/angel-wing-effect-329.html', 'https://en.ephoto360.com/create-logo-avatar-online-style-polygon-logo-320.html', 'https://en.ephoto360.com/metallic-text-effect-with-impressive-font-307.html', 'https://en.ephoto360.com/create-your-name-in-a-mechanical-style-306.html', 'https://en.ephoto360.com/metal-text-effect-online-new-305.html', 'https://en.ephoto360.com/text-effect-on-jean-fabric-304.html', 'https://en.ephoto360.com/create-avatar-gold-online-303.html', 'https://en.ephoto360.com/create-a-metal-avatar-by-your-name-299.html', 'https://en.ephoto360.com/create-metallic-cover-online-297.html', 'https://en.ephoto360.com/create-water-effect-text-online-295.html', 'https://en.ephoto360.com/create-metal-border-294.html', 'https://en.ephoto360.com/the-effect-of-galaxy-angel-wings-289.html', 'https://en.ephoto360.com/text-galaxy-tree-effect-288.html', 'https://en.ephoto360.com/write-gold-letters-online-285.html', 'https://en.ephoto360.com/gemstone-text-effect-283.html', 'https://en.ephoto360.com/3d-ruby-stone-text-281.html', 'https://en.ephoto360.com/write-gold-letters-online-279.html', 'https://en.ephoto360.com/magic-text-effect-278.html', 'https://en.ephoto360.com/text-metal-3d-277.html', 'https://en.ephoto360.com/snake-text-effect-276.html', 'https://en.ephoto360.com/jewel-text-effect-275.html', 'https://en.ephoto360.com/3d-text-effects-style-274.html', 'https://en.ephoto360.com/3d-silver-text-effect-273.html', 'https://en.ephoto360.com/gold-text-effect-style-272.html', 'https://en.ephoto360.com/gold-text-effect-pro-271.html', 'https://en.ephoto360.com/music-equalizer-text-effect-259.html', 'https://en.ephoto360.com/galaxy-text-effect-new-258.html', 'https://en.ephoto360.com/write-letters-on-the-leaves-248.html', 'https://en.ephoto360.com/fabric-text-effect-247.html', 'https://en.ephoto360.com/message-coffee-245.html', 'https://en.ephoto360.com/text-light-effets-234.html', 'https://en.ephoto360.com/text-effects-incandescent-bulbs-219.html', 'https://en.ephoto360.com/modern-gold-5-215.html', 'https://en.ephoto360.com/modern-gold-4-213.html', 'https://en.ephoto360.com/modern-gold-3-212.html', 'https://en.ephoto360.com/modern-gold-silver-210.html', 'https://en.ephoto360.com/text-graffiti-3d-208.html', 'https://en.ephoto360.com/wings-galaxy-206.html', 'https://en.ephoto360.com/neon-text-effect-light-200.html', 'https://en.ephoto360.com/graffiti-color-199.html', 'https://en.ephoto360.com/write-text-on-chocolate-186.html', 'https://en.ephoto360.com/caper-cut-effect-184.html', 'https://en.ephoto360.com/modern-gold-red-183.html', 'https://en.ephoto360.com/cover-graffiti-181.html', 'https://en.ephoto360.com/graffiti-text-5-180.html', 'https://en.ephoto360.com/graffiti-text-3-179.html', 'https://en.ephoto360.com/graffiti-text-text-effect-online-178.html', 'https://en.ephoto360.com/wings-text-effect-176.html', 'https://en.ephoto360.com/modern-gold-purple-175.html', 'https://en.ephoto360.com/metal-text-effect-blue-174.html', 'https://en.ephoto360.com/3d-text-effect-172.html', 'https://en.ephoto360.com/neon-text-effect-171.html', 'https://en.ephoto360.com/color-text-effects-160.html', 'https://en.ephoto360.com/embroider-159.html', 'https://en.ephoto360.com/gold-text-effect-158.html', 'https://en.ephoto360.com/modern-gold-157.html', 'https://en.ephoto360.com/logo-viettel-156.html', 'https://en.ephoto360.com/shadow-text-effects-155.html', 'https://en.ephoto360.com/matrix-text-effect-154.html', 'https://en.ephoto360.com/creating-text-effects-night-lend-for-word-effect-147.html', 'https://en.ephoto360.com/ligatures-effects-from-leaves-146.html', 'https://en.ephoto360.com/zombie-3d-text-effect-143.html', 'https://en.ephoto360.com/create-word-green-flares-140.html', 'https://en.ephoto360.com/cloud-text-effect-139.html', 'https://en.ephoto360.com/water-3d-text-effect-online-126.html', 'https://en.ephoto360.com/beautiful-gold-text-effect-122.html', 'https://en.ephoto360.com/blue-neon-text-effect-117.html', 'https://en.ephoto360.com/galaxy-text-effect-116.html', 'https://en.ephoto360.com/gold-text-effect-online-112.html', 'https://en.ephoto360.com/dragon-fire-text-effect-111.html', 'https://en.ephoto360.com/metal-text-effect-online-110.html', 'https://en.ephoto360.com/metal-star-text-online-109.html', 'https://en.ephoto360.com/snow-on-text-online-107.html', 'https://en.ephoto360.com/water-text-effects-online-106.html', 'https://en.ephoto360.com/3d-wooden-text-effects-online-104.html', 'https://en.ephoto360.com/cake-text-effect-online-103.html', 'https://en.ephoto360.com/milk-cake-text-effects-102.html', 'https://en.ephoto360.com/purple-text-effect-online-100.html', 'https://en.ephoto360.com/thunder-text-effect-online-97.html', 'https://en.ephoto360.com/diamond-text-95.html', 'https://en.ephoto360.com/candy-text-effect-94.html', 'https://en.ephoto360.com/colorful-text-effects-93.html', 'https://en.ephoto360.com/chrome-text-effect-91.html', 'https://en.ephoto360.com/3d-cubic-text-effect-online-88.html', 'https://en.ephoto360.com/bokeh-text-effect-86.html', 'https://en.ephoto360.com/stars-night-online-84.html', 'https://en.ephoto360.com/foggy-rainy-text-effect-75.html', 'https://en.ephoto360.com/underwater-text-73.html', 'https://en.ephoto360.com/paint-splatter-text-effect-72.html', 'https://en.ephoto360.com/plasma-text-effects-online-71.html', 'https://en.ephoto360.com/colorful-glowing-text-effect-69.html', 'https://en.ephoto360.com/neon-text-effect-68.html', 'https://en.ephoto360.com/retro-text-effect-67.html', 'https://en.ephoto360.com/steel-text-effect-66.html', 'https://en.ephoto360.com/heated-steel-lettering-effect-65.html', 'https://en.ephoto360.com/graffiti-lettering-online-64.html', 'https://en.ephoto360.com/create-unique-word-green-light-63.html', 'https://en.ephoto360.com/text-on-cloth-effect-62.html', 'https://en.ephoto360.com/writing-chalk-on-the-blackboard-61.html', 'https://en.ephoto360.com/cake-text-60.html'])
+                )
+                SESSION.headers.update({
+                    "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7",
+                    "Accept-Encoding": "gzip, deflate",
+                    "Sec-Fetch-Site": "same-origin",
+                    "Connection": "keep-alive",
+                    "Accept-Language": "id",
+                    "Host": "en.ephoto360.com",
+                    "Referer": "{}".format(self.URL),
+                    "Sec-Fetch-Dest": "document",
+                    "Sec-Fetch-Mode": "navigate",
+                    "Sec-Fetch-User": "?1",
+                    "Upgrade-Insecure-Requests": "1",
+                    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36"
+                })
+                response = SESSION.get('{}'.format(self.URL))
+
+                BOUNDARY = '----WebKitFormBoundary' \
+                    + ''.join(random.sample(string.ascii_letters + string.digits, 16))
+                
+                SESSION.headers.update({
+                    "Content-Type": "multipart/form-data; boundary={}".format(BOUNDARY)
+                })
+
+                self.BUILD_SERVER = re.search(r'name="build_server" value="(.*?)"', str(response.text)).group(1)
+                self.TOKEN = re.search(r'name="token" value="(.*?)"', str(response.text)).group(1)
+                self.BUILD_SERVER_ID = re.search(r'name="build_server_id" value="(.*?)"', str(response.text)).group(1)
+
+                data = MultipartEncoder({
+                    "build_server_id": (None, self.BUILD_SERVER_ID),
+                    "text[]": (None, f"{full_name}"),
+                    "submit": (None, "Go"),
+                    "token": (None, self.TOKEN),
+                    "build_server": (None, self.BUILD_SERVER)
+                }, boundary=BOUNDARY)
+
+                response2 = SESSION.post('{}'.format(self.URL), data = data)
+
+                self.BUILD_SERVER_ID = re.search(r'build_server_id&quot;:&quot;(.*?)&', str(response2.text)).group(1)
+                self.ID = re.search(r'id&quot;:&quot;(\d+)&', str(response2.text)).group(1)
+                self.TEXT = re.search(r'\[&quot;(.*?)&quot;\]', str(response2.text)).group(1)
+                self.TOKEN = str(re.search(r'token&quot;:&quot;(.*?)&', str(response2.text)).group(1)).replace('\\','')
+                self.BUILD_SERVER = str(re.search(r'build_server&quot;:&quot;(.*?)&', str(response2.text)).group(1)).replace('\\','')
+
+                SESSION.headers.update({
+                    "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
+                    "Origin": "https://en.ephoto360.com",
+                    "Accept": "*/*",
+                })
+                data = {
+                    "build_server_id": "{}".format(self.BUILD_SERVER_ID),
+                    "id": "{}".format(self.ID),
+                    "build_server": "{}".format(self.BUILD_SERVER),
+                    "text[]": "{}".format(self.TEXT),
+                    "token": "{}".format(self.TOKEN)
+                }
+                response3 = SESSION.post('https://en.ephoto360.com/effect/create-image', data = data)
+                if '"success":true' in str(response3.text):
+                    self.JSON_DATA = json.loads(response3.text)
+                    SESSION.headers.clear()
+                    SESSION.headers.update({
+                        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36",
+                        "Sec-Fetch-Dest": "image",
+                        "Accept": "image/avif,image/webp,image/apng,image/svg+xml,image/*,*/*;q=0.8",
+                        "Accept-Language": "en-US,en;q=0.9",
+                    })
+                    response4 = SESSION.get('https://e2.yotools.net/save-image/{}/{}'.format(self.JSON_DATA['image_code'], self.JSON_DATA['session_id']))
+                    with open('Penyimpanan/Images.jpg', 'wb') as W:
+                        W.write(response4.content)
+                    W.close()
+                    if not "href='https://ephoto360.com'" in str(open('Penyimpanan/Images.jpg', 'rb').read()):
+                        printf(f"                                                    ", end='\r')
+                        printf(f"[bold light_slate_grey]   ──>[bold green] BERHASIL MEMBUAT GAMBAR!", end='\r')
+                        time.sleep(2.5)
+                        return ("0_0")
+                    else:
+                        printf(f"                                                    ", end='\r')
+                        printf(f"[bold light_slate_grey]   ──>[bold blue] GAGAL MEMBUAT GAMBAR!", end='\r')
+                        time.sleep(4.7)
+                        self.IMAGE_EPHOTO360(full_name=full_name)
+                else:
+                    printf(f"                                                    ", end='\r')
+                    printf(f"[bold light_slate_grey]   ──>[bold yellow] GAGAL MEMBUAT GAMBAR!", end='\r')
+                    time.sleep(4.7)
+                    self.IMAGE_EPHOTO360(full_name=full_name)
+        except (AttributeError):
+            printf(f"                                                    ", end='\r')
+            printf(f"[bold light_slate_grey]   ──>[bold green] MENCOBA UNTUK MEMBUAT GAMBAR!", end='\r')
+            time.sleep(2.7)
+            self.IMAGE_EPHOTO360(full_name=full_name)
+        except (Exception):
+            printf(f"                                                    ", end='\r')
+            printf(f"[bold light_slate_grey]   ──>[bold red] GAGAL MEMBUAT GAMBAR!", end='\r')
+            time.sleep(4.7)
+            self(prompt=random.choice(PROMPT()))
 
 if __name__ == '__main__':
     try:
