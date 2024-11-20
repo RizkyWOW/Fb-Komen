@@ -432,7 +432,23 @@ class FACEBOOK:
                     self.PROMPT = random.choice(
                         PROMPT()
                     )
-           
+                    GENERATE().IMAGE_KOALA(prompt=self.PROMPT)
+                else:
+                    try:
+                        if not '/groups/' in str(link_postingan):
+                            self.FULL_NAME = re.search(r'property="og:title" content="([^<]+)"', str(response.text)).group(1)
+                        else:
+                            self.FULL_NAME = re.search(r'href="/[^"]*">([^<]*)</a></strong>', str(response.text)).group(1)
+                        if len(self.FULL_NAME) >= 35:
+                            self.FULL_NAME = self.FULL_NAME[:40]
+                        elif len(self.FULL_NAME) == 0:
+                            GENERATE().IMAGE_KOALA(prompt=PROMPT())
+                        else:
+                            self.FULL_NAME = self.FULL_NAME.title()
+                    except (AttributeError):
+                        GENERATE().IMAGE_KOALA(prompt=PROMPT())
+                    GENERATE().IMAGE_EPHOTO360(full_name=self.FULL_NAME)
+            self.COMMENT_ADVANCED = re.search(r'href="(/mbasic/comment/advanced/[^"]+)"', str(response.text)).group(1).replace('amp;', '')
 
             SESSION.headers.update({
                 "Referer": "{}".format(link_postingan),
@@ -445,7 +461,7 @@ class FACEBOOK:
             else:
                 self.TIPE_REAKSI = ('null')
             if bool(KOMENTAR['STATUS']) == True:
-               
+                response2 = SESSION.get('https://m.facebook.com{}'.format(self.COMMENT_ADVANCED))
 
                 self._MUPLOAD_ = re.search(r'action="(https://upload.facebook.com/_mupload_/ufi/mbasic/advanced/[^"]+)"', str(response2.text)).group(1).replace('amp;', '')
                 self.FB_DTSG = re.search(r'name="fb_dtsg" value="([^"]+)"', str(response2.text)).group(1)
@@ -476,8 +492,8 @@ class FACEBOOK:
                     "Referer": "https://m.facebook.com/",
                     "Host": "upload.facebook.com",
                 })
-                response2 = SESSION.post('{}'.format(self._MUPLOAD_), data = data)
-                if 'story.php?story_fbid=' in str(response2.text) or '/groups/' in str(response2.text):
+                response3 = SESSION.post('{}'.format(self._MUPLOAD_), data = data)
+                if 'story.php?story_fbid=' in str(response3.text) or '/groups/' in str(response3.text):
                     printf(Panel(f"""[bold white]Status :[italic green] Commented successfully...[/]
 [bold white]Link :[bold red] {str(link_postingan)[:134]}
 [bold white]Komentar :[bold yellow] {self.COMMENT_TEXT}
@@ -485,7 +501,7 @@ class FACEBOOK:
                     open('Trash/Sudah.txt', 'a+').write(f'{link_postingan}\n')
                     SUKSES.append(f'{link_postingan}')
                     return ("0_0")
-                elif 'Komentar+Foto+Tidak+Diizinkan' in str(response2.text):
+                elif 'Komentar+Foto+Tidak+Diizinkan' in str(response3.text):
                     printf(f"                                                    ", end='\r')
                     printf(f"[bold light_slate_grey]   ──>[bold red] KOMENTAR FOTO TIDAK DIIZINKAN!", end='\r')
                     GAGAL.append(f'{link_postingan}')
