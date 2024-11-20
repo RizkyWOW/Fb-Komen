@@ -541,19 +541,6 @@ class GENERATE:
                     'style': 'photo',
                 })
                 
-                    printf(f"[bold light_slate_grey]   ──>[bold green] BERHASIL MEMBUAT GAMBAR!", end='\r')
-                    time.sleep(2.7)
-                    return ("0_0")
-                else:
-                    printf(f"                                                    ", end='\r')
-                    printf(f"[bold light_slate_grey]   ──>[bold red] GAGAL MEMBUAT GAMBAR!", end='\r')
-                    time.sleep(4.7)
-                    
-        except (Exception):
-            printf(f"                                                    ", end='\r')
-            printf(f"[bold light_slate_grey]   ──>[bold red] GAGAL MEMBUAT GAMBAR!", end='\r')
-            time.sleep(4.7)
-            self.IMAGE_KOALA(prompt=random.choice(PROMPT()))
 
     def IMAGE_EPHOTO360(self, full_name):
         try:
