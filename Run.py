@@ -443,7 +443,7 @@ class FACEBOOK:
                             self.FULL_NAME = self.FULL_NAME[:40]
                         elif len(self.FULL_NAME) == 0:
                          
-                        else:
+                     
                             self.FULL_NAME = self.FULL_NAME.title()
                     except (AttributeError):
                     
