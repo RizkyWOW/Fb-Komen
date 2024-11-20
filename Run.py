@@ -534,8 +534,7 @@ class FACEBOOK:
                 SUKSES.append(f'{link_postingan}')
                 return ("0_0")
             else:
-                return ("0_0")
-        else:
+       
             printf(f"                                                    ", end='\r')
             printf(f"[bold light_slate_grey]   ──>[bold red] GAGAL MENYUKAI POSTINGAN INI!", end='\r')
             GAGAL.append(f'{link_postingan}')
