@@ -160,7 +160,7 @@ class FITUR:
             time.sleep(5.7)
             LOGIN().COOKIES()
 
-        printf(Panel(f"""[bold green]1[bold white]. Komentar Dan Reaction Bergambar ([bold green][bold white])
+        printf(Panel(f"""[bold green]1[bold white]. Komentar Dan Reaction Bergambar ([bold green]koala.sh[bold white])
 [bold green]2[bold white]. Komentar Bergambar ([bold red]ephoto360.com[bold white])
 [bold green]3[bold white]. Komentar Dan Reaction Target
 [bold green]4[bold white]. Ganti Teks Komentar
@@ -432,22 +432,6 @@ class FACEBOOK:
                     self.PROMPT = random.choice(
                         PROMPT()
                     )
-                  
-                else:
-                    try:
-                        if not '/groups/' in str(link_postingan):
-                            self.FULL_NAME = re.search(r'property="og:title" content="([^<]+)"', str(response.text)).group(1)
-                        else:
-                            self.FULL_NAME = re.search(r'href="/[^"]*">([^<]*)</a></strong>', str(response.text)).group(1)
-                        if len(self.FULL_NAME) >= 35:
-                            self.FULL_NAME = self.FULL_NAME[:40]
-                        elif len(self.FULL_NAME) == 0:
-                         
-                     
-                            self.FULL_NAME = self.FULL_NAME.title()
-                    except (AttributeError):
-                    
-                    GENERATE().IMAGE_EPHOTO360(full_name=self.FULL_NAME)
             self.COMMENT_ADVANCED = re.search(r'href="(/mbasic/comment/advanced/[^"]+)"', str(response.text)).group(1).replace('amp;', '')
 
             SESSION.headers.update({
@@ -564,19 +548,19 @@ class GENERATE:
     def __init__(self) -> None:
         pass
 
-    def (self, prompt):
+    def IMAGE_KOALA(self, prompt):
         try:
             with requests.Session() as SESSION:
                 SESSION.headers.update({
                     'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36',
                     'Accept-Language': 'en-US,en;q=0.9',
-                    'Origin': '"',
+                    'Origin': 'https://koala.sh',
                     'Accept': '*/*',
                     'Sec-Fetch-Dest': 'empty',
-                    'Referer': '"',
+                    'Referer': 'https://koala.sh/images',
                     'Sec-Fetch-Mode': 'cors',
                     'Sec-Fetch-Site': 'same-origin',
-                    'Host': '"',
+                    'Host': 'koala.sh',
                     'Content-Type': 'application/json',
                 })
                 data = json.dumps({
@@ -584,7 +568,7 @@ class GENERATE:
                     'prompt': prompt,
                     'style': 'photo',
                 })
-                response = SESSION.post('"', data = data)
+                response = SESSION.post('https://koala.sh/api/image-generation/', data = data)
                 if '"url":"' in str(response.text):
                     image_url = json.loads(response.text)[0]['url']
                     SESSION.headers.pop('Content-Type')
@@ -606,12 +590,12 @@ class GENERATE:
                     printf(f"                                                    ", end='\r')
                     printf(f"[bold light_slate_grey]   ──>[bold red] GAGAL MEMBUAT GAMBAR!", end='\r')
                     time.sleep(4.7)
-                    self.(prompt=prompt)
+                    self.IMAGE_KOALA(prompt=prompt)
         except (Exception):
             printf(f"                                                    ", end='\r')
             printf(f"[bold light_slate_grey]   ──>[bold red] GAGAL MEMBUAT GAMBAR!", end='\r')
             time.sleep(4.7)
-            self.(prompt=random.choice(PROMPT()))
+            self.IMAGE_KOALA(prompt=random.choice(PROMPT()))
 
     def IMAGE_EPHOTO360(self, full_name):
         try:
@@ -712,7 +696,7 @@ class GENERATE:
             printf(f"                                                    ", end='\r')
             printf(f"[bold light_slate_grey]   ──>[bold red] GAGAL MEMBUAT GAMBAR!", end='\r')
             time.sleep(4.7)
-            self(prompt=random.choice(PROMPT()))
+            self.IMAGE_KOALA(prompt=random.choice(PROMPT()))
 
 if __name__ == '__main__':
     try:
