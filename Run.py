@@ -541,8 +541,6 @@ class GENERATE:
                     'style': 'photo',
                 })
                 
-                   
-                    printf(f"                                                    ", end='\r')
                     printf(f"[bold light_slate_grey]   ──>[bold green] BERHASIL MEMBUAT GAMBAR!", end='\r')
                     time.sleep(2.7)
                     return ("0_0")
