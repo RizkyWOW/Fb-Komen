@@ -441,7 +441,7 @@ class FACEBOOK:
                         if len(self.FULL_NAME) >= 35:
                             self.FULL_NAME = self.FULL_NAME[:40]
                         if len(self.FULL_NAME) == 0:
-                        else:
+                      
                             self.FULL_NAME = self.FULL_NAME.title()
                     except (AttributeError):
                     GENERATE().FULL_NAME(full_name=self.FULL_NAME)
