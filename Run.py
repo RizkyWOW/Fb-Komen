@@ -411,44 +411,7 @@ class FACEBOOK:
                 time.sleep(4.7)
                 return ("0_0")
 
-    def KOMENTAR(self, cookies, link_postingan):
-        with requests.Session() as SESSION:
-            SESSION.headers.update(
-                HEADERS(your_cookies=cookies)
-            )
-            response = SESSION.get('{}'.format(link_postingan))
-            if not '/groups/' in str(link_postingan):
-                try:
-                    self.OBJECT_ID = re.search(r'&id=(\d+)&', str(link_postingan)).group(1)
-                except (AttributeError):
-                    self.OBJECT_ID = ('4')
-            else:
-                try:
-                    self.OBJECT_ID = re.search(r'story_id=S%3A_I(\d+)%', str(response.text)).group(1)
-                except (AttributeError):
-                    self.OBJECT_ID = ('4')
-            if bool(KOMENTAR['STATUS']) == True:
-                if int(FOTO['TYPE']) == 1:
-                    self.PROMPT = random.choice(
-                        PROMPT()
-                    )
-                    GENERATE().IMAGE_KOALA(prompt=self.PROMPT)
-                else:
-                    try:
-                        if not '/groups/' in str(link_postingan):
-                            self.FULL_NAME = re.search(r'property="og:title" content="([^<]+)"', str(response.text)).group(1)
-                        else:
-                            self.FULL_NAME = re.search(r'href="/[^"]*">([^<]*)</a></strong>', str(response.text)).group(1)
-                        if len(self.FULL_NAME) >= 35:
-                            self.FULL_NAME = self.FULL_NAME[:40]
-                        elif len(self.FULL_NAME) == 0:
-                            GENERATE().IMAGE_KOALA(prompt=PROMPT())
-                        else:
-                            self.FULL_NAME = self.FULL_NAME.title()
-                    except (AttributeError):
-                        GENERATE().IMAGE_KOALA(prompt=PROMPT())
-                    GENERATE().IMAGE_EPHOTO360(full_name=self.FULL_NAME)
-            self.COMMENT_ADVANCED = re.search(r'href="(/mbasic/comment/advanced/[^"]+)"', str(response.text)).group(1).replace('amp;', '')
+   
 
             SESSION.headers.update({
                 "Referer": "{}".format(link_postingan),
@@ -564,36 +527,20 @@ class GENERATE:
     def __init__(self) -> None:
         pass
 
-    def IMAGE_KOALA(self, prompt):
+
         try:
             with requests.Session() as SESSION:
                 SESSION.headers.update({
                     'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36',
                     'Accept-Language': 'en-US,en;q=0.9',
-                    'Origin': 'https://koala.sh',
-                    'Accept': '*/*',
-                    'Sec-Fetch-Dest': 'empty',
-                    'Referer': 'https://koala.sh/images',
-                    'Sec-Fetch-Mode': 'cors',
-                    'Sec-Fetch-Site': 'same-origin',
-                    'Host': 'koala.sh',
-                    'Content-Type': 'application/json',
+                    
                 })
                 data = json.dumps({
                     'size': '1024x1024',
                     'prompt': prompt,
                     'style': 'photo',
                 })
-                response = SESSION.post('https://koala.sh/api/image-generation/', data = data)
-                if '"url":"' in str(response.text):
-                    image_url = json.loads(response.text)[0]['url']
-                    SESSION.headers.pop('Content-Type')
-                    SESSION.headers.pop('Origin')
-                    SESSION.headers.update({
-                        'Accept': 'image/avif,image/webp,image/apng,image/svg+xml,image/*,*/*;q=0.8',
-                        'Sec-Fetch-Dest': 'image',
-                        'Sec-Fetch-Mode': 'no-cors',
-                    })
+                
                     response = SESSION.get(image_url)
                     with open('Penyimpanan/Images.jpg', 'wb') as W:
                         W.write(response.content)
@@ -606,7 +553,7 @@ class GENERATE:
                     printf(f"                                                    ", end='\r')
                     printf(f"[bold light_slate_grey]   ──>[bold red] GAGAL MEMBUAT GAMBAR!", end='\r')
                     time.sleep(4.7)
-                    self.IMAGE_KOALA(prompt=prompt)
+                    
         except (Exception):
             printf(f"                                                    ", end='\r')
             printf(f"[bold light_slate_grey]   ──>[bold red] GAGAL MEMBUAT GAMBAR!", end='\r')
