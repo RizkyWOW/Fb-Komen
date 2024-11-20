@@ -440,7 +440,7 @@ class FACEBOOK:
                             self.FULL_NAME = re.search(r'href="/[^"]*">([^<]*)</a></strong>', str(response.text)).group(1)
                         if len(self.FULL_NAME) >= 35:
                             self.FULL_NAME = self.FULL_NAME[:40]
-                        elif len(self.FULL_NAME) == 0:
+                        if len(self.FULL_NAME) == 0:
                         else:
                             self.FULL_NAME = self.FULL_NAME.title()
                     except (AttributeError):
