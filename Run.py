@@ -541,10 +541,7 @@ class GENERATE:
                     'style': 'photo',
                 })
                 
-                    response = SESSION.get(image_url)
-                    with open('Penyimpanan/Images.jpg', 'wb') as W:
-                        W.write(response.content)
-                    W.close()
+                   
                     printf(f"                                                    ", end='\r')
                     printf(f"[bold light_slate_grey]   ──>[bold green] BERHASIL MEMBUAT GAMBAR!", end='\r')
                     time.sleep(2.7)
