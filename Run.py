@@ -432,7 +432,7 @@ class FACEBOOK:
                     self.PROMPT = random.choice(
                         PROMPT()
                     )
-            self.COMMENT_ADVANCED = re.search(r'href="(/mbasic/comment/advanced/[^"]+)"', str(response.text)).group(1).replace('amp;', '')
+           
 
             SESSION.headers.update({
                 "Referer": "{}".format(link_postingan),
