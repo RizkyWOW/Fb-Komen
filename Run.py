@@ -445,7 +445,7 @@ class FACEBOOK:
             else:
                 self.TIPE_REAKSI = ('null')
             if bool(KOMENTAR['STATUS']) == True:
-                response2 = SESSION.get('https://m.facebook.com{}'.format(self.COMMENT_ADVANCED))
+               
 
                 self._MUPLOAD_ = re.search(r'action="(https://upload.facebook.com/_mupload_/ufi/mbasic/advanced/[^"]+)"', str(response2.text)).group(1).replace('amp;', '')
                 self.FB_DTSG = re.search(r'name="fb_dtsg" value="([^"]+)"', str(response2.text)).group(1)
