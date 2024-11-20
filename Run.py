@@ -476,8 +476,8 @@ class FACEBOOK:
                     "Referer": "https://m.facebook.com/",
                     "Host": "upload.facebook.com",
                 })
-                response3 = SESSION.post('{}'.format(self._MUPLOAD_), data = data)
-                if 'story.php?story_fbid=' in str(response3.text) or '/groups/' in str(response3.text):
+                response2 = SESSION.post('{}'.format(self._MUPLOAD_), data = data)
+                if 'story.php?story_fbid=' in str(response2.text) or '/groups/' in str(response2.text):
                     printf(Panel(f"""[bold white]Status :[italic green] Commented successfully...[/]
 [bold white]Link :[bold red] {str(link_postingan)[:134]}
 [bold white]Komentar :[bold yellow] {self.COMMENT_TEXT}
@@ -485,7 +485,7 @@ class FACEBOOK:
                     open('Trash/Sudah.txt', 'a+').write(f'{link_postingan}\n')
                     SUKSES.append(f'{link_postingan}')
                     return ("0_0")
-                elif 'Komentar+Foto+Tidak+Diizinkan' in str(response3.text):
+                elif 'Komentar+Foto+Tidak+Diizinkan' in str(response2.text):
                     printf(f"                                                    ", end='\r')
                     printf(f"[bold light_slate_grey]   ──>[bold red] KOMENTAR FOTO TIDAK DIIZINKAN!", end='\r')
                     GAGAL.append(f'{link_postingan}')
