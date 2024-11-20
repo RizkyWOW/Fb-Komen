@@ -531,7 +531,7 @@ class FACEBOOK:
                 printf(Panel(f"""[bold white]Status :[italic green] Successfully liked...[/]
 [bold white]Link :[bold red] {str(link_postingan)[:134]}
 [bold white]Reaksi :[bold green] {str(TIPE().REACTION(TYPE_)).upper()}""", width=57, style="bold light_slate_grey", title="[bold light_slate_grey]>> [Sukses] <<"))
-                SUKSES.append(f'{link_postingan}')
+                SUKSES.append(f'{link_postingan}')}
                 return ("0_0")
             else:
                 return ("0_0")
