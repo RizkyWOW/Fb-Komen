@@ -395,7 +395,7 @@ class FACEBOOK:
                         else:
                             printf(f"[bold light_slate_grey]   ──>[bold white] MENGUMPULKAN[bold green] {str(self.STORY_FBID)[:17]}[bold white]/[bold green]{len(POSTINGAN)}[bold white] POSTINGAN!   ", end='\r')
                             time.sleep(0.5)
-                            POSTINGAN.append(f'{self.FINAL_POSTINGAN}')
+                            POSTINGAN.append(f'https://m.facebook.com{self.FINAL_POSTINGAN}')
                     else:
                         continue
                 except:
