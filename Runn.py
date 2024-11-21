@@ -384,8 +384,7 @@ class FACEBOOK:
                         continue
                 except:
                     continue
-            self.FIND_POSTINGAN_GROUP = re.findall(r'href="(https://m.facebook.com/groups/[^"]+)".*? Komentar</a>', str(response.text))
-            for POST in self.FIND_POSTINGAN_GROUP:
+            
                 try:
                     self.FINAL_POSTINGAN = POST.replace('amp;', '')
                     if '/permalink/' in str(self.FINAL_POSTINGAN):
