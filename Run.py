@@ -389,8 +389,7 @@ class FACEBOOK:
                         else:
                             time.sleep(0.5)
                     else:
-                        continue
-                except:
+                             except:
                     continue
             if len(POSTINGAN) == 0:
                 printf(f"                                                    ", end='\r')
