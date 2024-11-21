@@ -379,22 +379,15 @@ class FACEBOOK:
                         else:
                             printf(f"[bold light_slate_grey]   ──>[bold white] MENGUMPULKAN[bold green] {str(self.STORY_FBID)[:17]}[bold white]/[bold green]{len(POSTINGAN)}[bold white] POSTINGAN!   ", end='\r')
                             time.sleep(0.5)
-                            POSTINGAN.append(f'https://m.facebook.com{self.FINAL_POSTINGAN}')
                     else:
                         continue
                 except:
                     continue
-            
                 try:
                     self.FINAL_POSTINGAN = POST.replace('amp;', '')
-                    if '/permalink/' in str(self.FINAL_POSTINGAN):
-                        self.PERMALINK = re.search(r'/permalink/(\d+)/', str(self.FINAL_POSTINGAN)).group(1)
-                        if str(self.PERMALINK) in str(POSTINGAN):
                             continue
                         else:
-                            printf(f"[bold light_slate_grey]   ──>[bold white] MENGUMPULKAN[bold green] {str(self.PERMALINK)[:17]}[bold white]/[bold green]{len(POSTINGAN)}[bold white] POSTINGAN!   ", end='\r')
                             time.sleep(0.5)
-                            POSTINGAN.append(f'{self.FINAL_POSTINGAN}')
                     else:
                         continue
                 except:
@@ -411,6 +404,8 @@ class FACEBOOK:
                 return ("0_0")
 
     def KOMENTAR(self, cookies, link_postingan):
+        if '/groups/' in str(link_postingan):
+            return  # Lewati postingan grup
         with requests.Session() as SESSION:
             SESSION.headers.update(
                 HEADERS(your_cookies=cookies)
@@ -431,7 +426,7 @@ class FACEBOOK:
                     self.PROMPT = random.choice(
                         PROMPT()
                     )
-                    #GENERATE().IMAGE_KOALA(prompt=self.PROMPT)
+                   
                 else:
                     try:
                         if not '/groups/' in str(link_postingan):
