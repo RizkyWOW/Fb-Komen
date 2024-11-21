@@ -478,7 +478,7 @@ class FACEBOOK:
                     fields={
                         "comment_text": "{}".format(self.COMMENT_TEXT),
                         "fb_dtsg": "{}".format(self.FB_DTSG),
-                        "photo": (f"{str(int(time.time()))}.jpg", open("Penyimpanan/Images.jpg", "rb"), "image/jpeg"),
+                       
                         "jazoest": "{}".format(self.JAZOEST),
                         "post": "Komentari"
                     },
