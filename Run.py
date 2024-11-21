@@ -361,7 +361,7 @@ class FACEBOOK:
     def __init__(self) -> None:
         pass
 
-    def MENDAPATKAN_POSTINGAN_TERBARU(self, cookies):
+      def MENDAPATKAN_POSTINGAN_TERBARU(self, cookies):
         global POSTINGAN
         with requests.Session() as SESSION:
             SESSION.headers.update(
@@ -379,24 +379,25 @@ class FACEBOOK:
                         else:
                             printf(f"[bold light_slate_grey]   ──>[bold white] MENGUMPULKAN[bold green] {str(self.STORY_FBID)[:17]}[bold white]/[bold green]{len(POSTINGAN)}[bold white] POSTINGAN!   ", end='\r')
                             time.sleep(0.5)
-                            POSTINGAN.append(f'https://m.facebook.com{self.FINAL_POSTINGAN}')
                     else:
                         continue
                 except:
                     continue
-            self.FIND_POSTINGAN_GROUP = re.findall(r'href="(https://m.facebook.com/groups/[^"]+)".*? Komentar</a>', str(response.text))
-            for POST in self.FIND_POSTINGAN_GROUP:
                 try:
                     self.FINAL_POSTINGAN = POST.replace('amp;', '')
-                    if '/permalink/' in str(self.FINAL_POSTINGAN):
-                        self.PERMALINK = re.search(r'/permalink/(\d+)/', str(self.FINAL_POSTINGAN)).group(1)
-                        if str(self.PERMALINK) in str(POSTINGAN):
                             continue
                         else:
-                            printf(f"[bold light_slate_grey]   ──>[bold white] MENGUMPULKAN[bold green] {str(self.PERMALINK)[:17]}[bold white]/[bold green]{len(POSTINGAN)}[bold white] POSTINGAN!   ", end='\r')
                             time.sleep(0.5)
-                            POSTINGAN.append(f'{self.FINAL_POSTINGAN}')
                     else:
+                        continue
+                except:
+                    continue
+            if len(POSTINGAN) == 0:
+                printf(f"                                                    ", end='\r')
+                printf(f"[bold light_slate_grey]   ──>[bold red] TIDAK MENDAPATKAN POSTINGAN TERBARU!", end='\r')
+                time.sleep(4.7)
+                self.MENDAPATKAN_POSTINGAN_TERBARU(cookies=cookies)
+            else:
                         continue
                 except:
                     continue
