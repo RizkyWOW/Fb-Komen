@@ -384,18 +384,18 @@ class FACEBOOK:
                         continue
                 except:
                     continue
-            self.FIND_POSTINGAN_GROUP = re.findall(r'href="(https://m.facebook.com/groups/[^"]+)".*? Komentar</a>', str(response.text))
-            for POST in self.FIND_POSTINGAN_GROUP:
+            self.FIND_POSTINGAN = re.findall(r'href="(/story\.php\?[^"]+)"', str(response.text))
+            for POST in self.FIND_POSTINGAN:
                 try:
                     self.FINAL_POSTINGAN = POST.replace('amp;', '')
-                    if '/permalink/' in str(self.FINAL_POSTINGAN):
-                        self.PERMALINK = re.search(r'/permalink/(\d+)/', str(self.FINAL_POSTINGAN)).group(1)
-                        if str(self.PERMALINK) in str(POSTINGAN):
+                    if 'story_fbid=' in str(self.FINAL_POSTINGAN):
+                        self.STORY_FBID = re.search(r'story_fbid=([^&]+)', str(self.FINAL_POSTINGAN)).group(1)
+                        if str(self.STORY_FBID) in str(POSTINGAN):
                             continue
                         else:
-                            printf(f"[bold light_slate_grey]   ──>[bold white] MENGUMPULKAN[bold green] {str(self.PERMALINK)[:17]}[bold white]/[bold green]{len(POSTINGAN)}[bold white] POSTINGAN!   ", end='\r')
+                            printf(f"[bold light_slate_grey]   ──>[bold white] MENGUMPULKAN[bold green] {str(self.STORY_FBID)[:17]}[bold white]/[bold green]{len(POSTINGAN)}[bold white] POSTINGAN!   ", end='\r')
                             time.sleep(0.5)
-                            POSTINGAN.append(f'{self.FINAL_POSTINGAN}')
+                            POSTINGAN.append(f'https://m.facebook.com{self.FINAL_POSTINGAN}')
                     else:
                         continue
                 except:
