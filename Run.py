@@ -384,14 +384,10 @@ class FACEBOOK:
                         continue
                 except:
                     continue
-                        else:
-                            printf(f"[bold light_slate_grey]   ──>[bold white] MENGUMPULKAN[bold green] {str(self.PERMALINK)[:17]}[bold white]/[bold green]{len(POSTINGAN)}[bold white] POSTINGAN!   ", end='\r')
-                            time.sleep(0.5)
-                            POSTINGAN.append(f'{self.FINAL_POSTINGAN}')
-                    else:
-                        continue
+                        
                 except:
                     continue
+                    
             if len(POSTINGAN) == 0:
                 printf(f"                                                    ", end='\r')
                 printf(f"[bold light_slate_grey]   ──>[bold red] TIDAK MENDAPATKAN POSTINGAN TERBARU!", end='\r')
