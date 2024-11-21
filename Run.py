@@ -373,7 +373,7 @@ class FACEBOOK:
                 try:
                     self.FINAL_POSTINGAN = POST.replace('amp;', '')
                     if 'story_fbid=' in str(self.FINAL_POSTINGAN):
-                        self.STORY_FBID = re.search(r'story_fbid=([^&]+)', str(self.FINAL_POSTINGAN)).group(1)
+                        self.STORY_FBID = re.search(r'story_fbid=([^&]+)".*? Komentar</a>', str(self.FINAL_POSTINGAN)).group(1)
                         if str(self.STORY_FBID) in str(POSTINGAN):
                             continue
                         else:
