@@ -81,7 +81,7 @@ def TAMPILKAN_BANNER():
  |  _| | |_) |_____| . \ (_) | | | | | |  __/ | | |
 [bold white] |_|   |_.__/      |_|\_\___/|_| |_| |_|\___|_| |_|
 
-    [underline red]Facebook Comments Home Page - Coded by Rozhak""", width=57, style="bold light_slate_grey"))
+    [underline red]Facebook Comments Home Page - Coded by ARKYPRAS""", width=57, style="bold light_slate_grey"))
 
 def HEADERS(your_cookies):
     return({
@@ -455,7 +455,7 @@ class FACEBOOK:
             })
 
             if bool(LIKE['STATUS']) == True:
-                self.RANDOM_REAKSI = random.choice(['1', '2', '16', '4', '3', '7', '8'])
+                self.RANDOM_REAKSI = random.choice(['1', '2', '16'])
                 self.TIPE_REAKSI = TIPE().REACTION(self.RANDOM_REAKSI)
                 self.REAKSI(SESSION, response.text, link_postingan, self.RANDOM_REAKSI)
             else:
@@ -553,11 +553,9 @@ class TIPE:
             1: "Like",
             2: "Super",
             16: "Peduli",
-            4: "Haha",
-            3: "Wow",
-            7: "Sedih"
+            
         }
-        return self.REACTIONS.get(int(number), "Marah")
+        return self.REACTIONS.get(int(number), "Super")
 
 class GENERATE:
 
