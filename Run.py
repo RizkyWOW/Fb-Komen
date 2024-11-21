@@ -468,7 +468,83 @@ class FACEBOOK:
                 self.JAZOEST = re.search(r'name="jazoest" value="([^"]+)"', str(response2.text)).group(1)
 
                 BOUNDARY = '----WebKitFormBoundary' \
-                    + ''.join(random.sample(string.ascii_letters + string.digits, 16))
+class FACEBOOK:
+
+    def __init__(self) -> None:
+        pass
+
+    def MENDAPATKAN_POSTINGAN_TERBARU(self, cookies):
+        global POSTINGAN
+        with requests.Session() as SESSION:
+            SESSION.headers.update(
+                HEADERS(your_cookies=cookies)
+            )
+            response = SESSION.get('https://m.facebook.com/home.php?hrc=1&paipv=0&eav=&_rdr')
+            
+            # Filter postingan hanya dari beranda
+            self.FIND_POSTINGAN = re.findall(r'href="(/story\.php\?[^"]+)"', str(response.text))
+            for POST in self.FIND_POSTINGAN:
+                try:
+                    self.FINAL_POSTINGAN = POST.replace('amp;', '')
+                    if 'story_fbid=' in str(self.FINAL_POSTINGAN):
+                        self.STORY_FBID = re.search(r'story_fbid=([^&]+)', str(self.FINAL_POSTINGAN)).group(1)
+                        if str(self.STORY_FBID) not in str(POSTINGAN):
+                            printf(f"[bold light_slate_grey]   ──>[bold white] Mengumpulkan[bold green] {str(self.STORY_FBID)[:17]}[bold white]/[bold green]{len(POSTINGAN)}[bold white] postingan beranda!   ", end='\r')
+                            time.sleep(0.5)
+                            POSTINGAN.append(f'https://m.facebook.com{self.FINAL_POSTINGAN}')
+                    else:
+                        continue
+                except:
+                    continue
+            
+            # Abaikan postingan dari grup
+            if len(POSTINGAN) == 0:
+                printf(f"                                                    ", end='\r')
+                printf(f"[bold light_slate_grey]   ──>[bold red] Tidak mendapatkan postingan beranda terbaru!", end='\r')
+                time.sleep(4.7)
+                self.MENDAPATKAN_POSTINGAN_TERBARU(cookies=cookies)
+            else:
+                printf(f"                                                    ", end='\r')
+                printf(f"[bold light_slate_grey]   ──>[bold green] Berhasil mendapatkan {len(POSTINGAN)} postingan beranda!", end='\r')
+                time.sleep(4.7)
+                return ("0_0")
+
+    def KOMENTAR(self, cookies, link_postingan):
+        with requests.Session() as SESSION:
+            SESSION.headers.update(
+                HEADERS(your_cookies=cookies)
+            )
+            response = SESSION.get('{}'.format(link_postingan))
+            try:
+                if not '/groups/' in str(link_postingan):  # Filter komentar bukan dari grup
+                    self.OBJECT_ID = re.search(r'&id=(\d+)&', str(link_postingan)).group(1)
+                else:
+                    return  # Lewati jika dari grup
+            except (AttributeError):
+                self.OBJECT_ID = ('4')
+
+            if bool(KOMENTAR['STATUS']) == True:
+                # Ambil teks komentar atau gambar jika diperlukan
+                self.COMMENT_ADVANCED = re.search(r'href="(/mbasic/comment/advanced/[^"]+)"', str(response.text)).group(1).replace('amp;', '')
+
+                SESSION.headers.update({
+                    "Referer": "{}".format(link_postingan),
+                })
+
+                if bool(LIKE['STATUS']) == True:
+                    self.RANDOM_REAKSI = random.choice(['1', '2', '16'])
+                    self.TIPE_REAKSI = TIPE().REACTION(self.RANDOM_REAKSI)
+                    self.REAKSI(SESSION, response.text, link_postingan, self.RANDOM_REAKSI)
+                else:
+                    self.TIPE_REAKSI = ('null')
+
+                response2 = SESSION.get('https://m.facebook.com{}'.format(self.COMMENT_ADVANCED))
+
+                self._MUPLOAD_ = re.search(r'action="(https://upload.facebook.com/_mupload_/ufi/mbasic/advanced/[^"]+)"', str(response2.text)).group(1).replace('amp;', '')
+                self.FB_DTSG = re.search(r'name="fb_dtsg" value="([^"]+)"', str(response2.text)).group(1)
+                self.JAZOEST = re.search(r'name="jazoest" value="([^"]+)"', str(response2.text)).group(1)
+
+                BOUNDARY = '----WebKitFormBoundary' + ''.join(random.sample(string.ascii_letters + string.digits, 16))
 
                 self.TEKS_KOMENTAR = TEKS_KOMENTAR(object_id=self.OBJECT_ID)
                 self.COMMENT_TEXT = (f"""{self.TEKS_KOMENTAR}
@@ -478,7 +554,7 @@ class FACEBOOK:
                     fields={
                         "comment_text": "{}".format(self.COMMENT_TEXT),
                         "fb_dtsg": "{}".format(self.FB_DTSG),
-                       
+                        "photo": (f"{str(int(time.time()))}.jpg", open("Penyimpanan/Images.jpg", "rb"), "image/jpeg"),
                         "jazoest": "{}".format(self.JAZOEST),
                         "post": "Komentari"
                     },
@@ -492,21 +568,18 @@ class FACEBOOK:
                     "Referer": "https://m.facebook.com/",
                     "Host": "upload.facebook.com",
                 })
-                response3 = SESSION.post('{}'.format(self._MUPLOAD_), data = data)
-                if 'story.php?story_fbid=' in str(response3.text) or '/groups/' in str(response3.text):
+                response3 = SESSION.post('{}'.format(self._MUPLOAD_), data=data)
+                if 'story.php?story_fbid=' in str(response3.text):
                     printf(Panel(f"""[bold white]Status :[italic green] Commented successfully...[/]
 [bold white]Link :[bold red] {str(link_postingan)[:134]}
 [bold white]Komentar :[bold yellow] {self.COMMENT_TEXT}
 [bold white]Reaksi :[bold green] {str(self.TIPE_REAKSI).upper()}""", width=57, style="bold light_slate_grey", title="[bold light_slate_grey]>> [Sukses] <<"))
                     open('Trash/Sudah.txt', 'a+').write(f'{link_postingan}\n')
                     SUKSES.append(f'{link_postingan}')
-                    return ("0_0")
-                elif 'Komentar+Foto+Tidak+Diizinkan' in str(response3.text):
-                    printf(f"                                                    ", end='\r')
-                    printf(f"[bold light_slate_grey]   ──>[bold red] KOMENTAR FOTO TIDAK DIIZINKAN!", end='\r')
-                    GAGAL.append(f'{link_postingan}')
-                    time.sleep(3.7)
-                    return ("-_0")
+                else:
+                    printf(f"[bold light_slate_grey]   ──>[bold red] Gagal mengomentari postingan ini!", end='\r')
+            return ("0_0")
+
                 else:
                     printf(f"                                                    ", end='\r')
                     printf(f"[bold light_slate_grey]   ──>[bold red] GAGAL MENGOMENTARI POSTINGAN INI!", end='\r')
