@@ -455,7 +455,7 @@ class FACEBOOK:
             })
 
             if bool(LIKE['STATUS']) == True:
-                self.RANDOM_REAKSI = random.choice(['1', '2', '16'])
+                self.RANDOM_REAKSI = random.choice(['2', '16'])
                 self.TIPE_REAKSI = TIPE().REACTION(self.RANDOM_REAKSI)
                 self.REAKSI(SESSION, response.text, link_postingan, self.RANDOM_REAKSI)
             else:
@@ -521,7 +521,7 @@ class FACEBOOK:
         response4 = SESSION.get('https://m.facebook.com{}'.format(self.REACTION_PICKER))
 
         self.UFI_REACTION = re.findall(r'href="(/ufi/reaction/[^"]+)"', str(response4.text))
-        for URLS in self.UFI_REACTION: # 1=LIKE, 2=SUPER, 16=PEDULI
+        for URLS in self.UFI_REACTION: # 2=SUPER, 16=PEDULI
             if f'reaction_type={TYPE_}' in str(URLS):
                 self.REACTION_URL = URLS.replace('amp;', '')
             else:
@@ -550,7 +550,7 @@ class TIPE:
 
     def REACTION(self, number):
         self.REACTIONS = {
-            1: "Like",
+           
             2: "Super",
             16: "Peduli",
             
